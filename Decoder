@@ -1,0 +1,30 @@
+def vigenere_decode(message, keyword):
+    keyword_phrase = ""  # Hier wird das Schlüsselwort für die Entschlüsselung gespeichert.
+    keyword_index = 0  # Der Index, um das Schlüsselwort durchzugehen.
+    alphabet = "abcdefghijklmnopqrstuvwxyz"  # Das verwendete Alphabet.
+    offcount = 0  # Verschiebungszähler für die Entschlüsselung.
+
+    for character in message:  # Schleife durch jeden Buchstaben im verschlüsselten Nachrichtentext.
+        if keyword_index >= len(keyword):  # Überprüfen, ob der Index die Länge des Schlüsselworts überschritten hat.
+            keyword_index = 0  # Wenn der Index überschritten wurde, wird er auf 0 zurückgesetzt.
+        if character in alphabet:  # Überprüfen, ob der Buchstabe im Alphabet vorhanden ist.
+            keyword_phrase += keyword[keyword_index]  # Das aktuelle Schlüsselwortzeichen wird hinzugefügt.
+            keyword_index += 1  # Der Index für das Schlüsselwort wird erhöht.
+        else:
+            keyword_phrase += character  # Nicht im Alphabet enthaltene Zeichen werden direkt zum Schlüsselwort hinzugefügt.
+
+    decode_textmessage = ""  # Hier wird die fertige entschlüsselte Nachricht gespeichert.
+
+    for i in range(len(message)):
+        if message[i] in alphabet:
+            first_charakter_valueindex = alphabet.find(message[i])
+            offcount = alphabet.find(keyword_phrase[i])
+            new_charakter_value = alphabet[(first_charakter_valueindex + offcount) % 26]
+            decode_textmessage += new_charakter_value
+        else:
+            decode_textmessage += message[i]
+
+    # Ausgabe der ursprünglichen Nachricht, des generierten Schlüsselworts und der entschlüsselten Nachricht.
+    print("Original Nachricht:", message)
+    print("Generiertes Schlüsselwort:", keyword_phrase)
+    print("Entschlüsselte Nachricht:", decode_textmessage)
